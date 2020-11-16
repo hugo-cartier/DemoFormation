@@ -163,10 +163,6 @@
       <Project>{a21daae8-807c-4645-8c16-7ab28f67e728}</Project>
       <Name>GestionStock.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GestionStock.Database\GestionStock.Database.csproj">
-      <Project>{3DC617E5-473A-462A-914D-3B14B2DFCA89}</Project>
-      <Name>GestionStock.Database</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

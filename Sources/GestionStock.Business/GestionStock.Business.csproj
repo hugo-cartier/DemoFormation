@@ -65,11 +65,5 @@
     <Compile Include="Modele\Article.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GestionStock.Database\GestionStock.Database.csproj">
-      <Project>{3dc617e5-473a-462a-914d-3b14b2dfca89}</Project>
-      <Name>GestionStock.Database</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
