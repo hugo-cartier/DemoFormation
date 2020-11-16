@@ -21,6 +21,7 @@ namespace GestionStock.Database
             new DataBaseArticle("0099", "Pizza 3 fromages", 3.1f, 500),
             new DataBaseArticle("0100", "Pizza chorizo", 3.2f, 500),
             new DataBaseArticle("0666", "Pizza Ananas", 4.0f, 500),
+            new DataBaseArticle("0101", "Pizza saumon", 4.2f, 500),
         };
 
         public DataBaseArticleManager()
