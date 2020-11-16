@@ -68,11 +68,12 @@
             </Grid.RenderTransform>
             <!--  Visibility="{Binding AddStockManager.IsAjouterArticle, Converter={StaticResource BoolToVis}}" -->
             <Rectangle Fill="#CCFFFFFF" />
-            <Grid x:Name="GridAjoutArticle" Width="450" Background="#FFF0F0F0" VerticalAlignment="Center">
+            <Grid x:Name="GridAjoutArticle" Width="450" Background="#FFF0F0F0" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Grid.Effect>
                     <DropShadowEffect ShadowDepth="10" BlurRadius="25"/>
                 </Grid.Effect>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="35"/>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="35"/>
                     <RowDefinition Height="35"/>
@@ -111,7 +112,9 @@
                         <Behavior:ForceNumericBehavior CanBeNegative="False"/>
                     </i:Interaction.Behaviors>
                 </TextBox>
-                <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5">
+                <TextBlock Text="Visible :" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <CheckBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="{Binding AddStockManager.ArticleAjoutVM.EstVisible}" />
+                <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,5">
                     <Button Content="Annuler" Width="100" HorizontalAlignment="Right" IsCancel="True" Command="{Binding AddStockManager.AfficherMasquerArticleStockCommand}" Style="{DynamicResource ButtonCancelStyle}"/>
                     <Button Content="Valider" Width="100" HorizontalAlignment="Right" IsCancel="True" Command="{Binding AddStockManager.ValiderArticleStockCommand}" Margin="10,0,10,0" BorderBrush="#FF2B2929" FontWeight="Bold"/>
                 </StackPanel>
