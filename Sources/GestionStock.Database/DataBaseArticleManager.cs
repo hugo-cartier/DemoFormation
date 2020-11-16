@@ -25,6 +25,7 @@ namespace GestionStock.Database
             new DataBaseArticle("0103", "Yaourt vanille", 1.2f, 500, false),
             new DataBaseArticle("0105", "Yaourt chocolat", 1.3f, 500, false),
             new DataBaseArticle("0106", "Yaourt pistache", 1.3f, 500, false),
+            new DataBaseArticle("0108", "Yaourt caramel", 1.3f, 500, false),
         };
 
         public DataBaseArticleManager()
