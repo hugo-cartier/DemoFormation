@@ -11,8 +11,8 @@ namespace WPFGestionStock.Model
     {
         public string Reference { get; set; }
         public string Designation { get; set; }
-        public float PrixVente { get; set; }
-        public float QteStock { get; set; }
+        public decimal PrixVente { get; set; }
+        public decimal QteStock { get; set; }
         public bool EstVisible { get; set; }
 
         //public ArticleVM(Article databaseArticle)

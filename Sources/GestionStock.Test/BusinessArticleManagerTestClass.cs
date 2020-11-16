@@ -1,7 +1,7 @@
 ﻿using GestionStock.Business;
 using GestionStock.Business.Modele;
+using GestionStock.Database;
 using GestionStock.Database.Interface;
-using GestionStock.Database.Modele;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
@@ -16,15 +16,15 @@ namespace GestionStock.Test
     public class BusinessArticleManagerTestClass
     {
         [TestMethod]
-        public void RechercheParRefTest()
+        public void RechercheParRefApproximativeTest()
         {
             //Arrange
-            var mock = new Mock<IDataBaseArticleManager>();
-            mock.Setup(x => x.RechercheParRef("4700")).Returns(() => new DataBaseArticle("4700", "", 1, 1, true));
+            var mock = new Mock<IDatabaseArticleManager>();
+            mock.Setup(x => x.RechercheParRefExacte("4700")).Returns(() => new DatabaseArticle() { Reference="4700",Designation= "", PrixVente=1,QteStock= 1,Sommeil= true });
             var aTester = new BusinessStockManager(mock.Object);
 
             //Act
-            var trouve = aTester.RechercheParRef("4700");
+            var trouve = aTester.RechercheParRefExacte("4700");
 
             //Assert
             Assert.IsNotNull(trouve);
@@ -32,15 +32,15 @@ namespace GestionStock.Test
         }
 
         [TestMethod]
-        public void RechercheParRefNulleTest()
+        public void RechercheParRefApproximativeNulleTest()
         {
             //Arrange
-            var mock = new Mock<IDataBaseArticleManager>();
-            mock.Setup(x => x.RechercheParRef("4800")).Returns(() => null);
+            var mock = new Mock<IDatabaseArticleManager>();
+            mock.Setup(x => x.RechercheParRefApproximative("4800")).Returns(() => null);
             var aTester = new BusinessStockManager(mock.Object);
 
             //Act
-            var trouve = aTester.RechercheParRef("4800");
+            var trouve = aTester.RechercheParRefApproximative("4800");
 
             //Assert
             Assert.IsNull(trouve);
@@ -50,14 +50,14 @@ namespace GestionStock.Test
         [TestMethod]
         public void AjoutTest()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
+            var mock = new Mock<IDatabaseArticleManager>();
             mock.Setup(x => x.AjouterArticle("4800", "Test", 123, 1234, true));
-            mock.Setup(x => x.RechercheParRef("4800")).Returns(() => new DataBaseArticle("4800", "Test", 123, 1234, true));
+            mock.Setup(x => x.RechercheParRefExacte("4800")).Returns(() => new DatabaseArticle() { Reference = "4800", Designation = "Test",PrixVente = 123,QteStock = 1234,Sommeil = true });
             var aTester = new BusinessStockManager(mock.Object);
 
 
             aTester.AddArticle("4800", "Test", 123, 1234, true);
-            var trouve = aTester.RechercheParRef("4800");
+            var trouve = aTester.RechercheParRefExacte("4800");
 
 
             Assert.IsNotNull(trouve);
@@ -70,7 +70,7 @@ namespace GestionStock.Test
         [ExpectedException(typeof(Exception))]
         public void AjoutRefNulleTest()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
+            var mock = new Mock<IDatabaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
             aTester.AddArticle(null, "Test", 123, 0, true);
         }
@@ -79,7 +79,7 @@ namespace GestionStock.Test
         [ExpectedException(typeof(Exception))]
         public void AjoutDesignationNulleTest()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
+            var mock = new Mock<IDatabaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
             aTester.AddArticle("4700", null, 123, 0, true);
         }
@@ -88,7 +88,7 @@ namespace GestionStock.Test
         [ExpectedException(typeof(Exception))]
         public void AjoutPrixNegatifTest()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
+            var mock = new Mock<IDatabaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
             aTester.AddArticle("4700", "TEST", -2, 25, true);
         }
@@ -97,7 +97,7 @@ namespace GestionStock.Test
         [ExpectedException(typeof(Exception))]
         public void AjoutStockNegatifTest()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
+            var mock = new Mock<IDatabaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
             aTester.AddArticle("4700", "TEST", 10, -5, true);
         }
@@ -105,12 +105,12 @@ namespace GestionStock.Test
         [TestMethod]
         public void NettoyerArticleTest()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
-            mock.Setup(x => x.RechercheParRef("4700")).Returns(() => null);
+            var mock = new Mock<IDatabaseArticleManager>();
+            mock.Setup(x => x.RechercheParRefApproximative("4700")).Returns(() => null);
             var aTester = new BusinessStockManager(mock.Object);
 
             aTester.ViderArticle();
-            var trouve = aTester.RechercheParRef("4700");
+            var trouve = aTester.RechercheParRefApproximative("4700");
 
             mock.Verify(x => x.ViderArticle(), Times.Once());
 
@@ -120,7 +120,7 @@ namespace GestionStock.Test
         [TestMethod]
         public void SupprimerArticleTest()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
+            var mock = new Mock<IDatabaseArticleManager>();
             mock.Setup(x => x.SupprimerParRef("4700"));
             var aTester = new BusinessStockManager(mock.Object);
 
@@ -131,7 +131,7 @@ namespace GestionStock.Test
         [TestMethod]
         public void ModifierParRef()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
+            var mock = new Mock<IDatabaseArticleManager>();
             mock.Setup(x => x.ModifierParRef("4700", "TEST MODIF", 45, 50));
             var aTester = new BusinessStockManager(mock.Object);
 
@@ -142,8 +142,8 @@ namespace GestionStock.Test
         [TestMethod]
         public void RechercheParIntervallePrix()
         {
-            var mock = new Mock<IDataBaseArticleManager>();
-            mock.Setup(x => x.RechercheParIntervallePrix(25, 50)).Returns(() => new List<DataBaseArticle>());
+            var mock = new Mock<IDatabaseArticleManager>();
+            mock.Setup(x => x.RechercheParIntervallePrix(25, 50)).Returns(() => new List<DatabaseArticle>());
             var aTester = new BusinessStockManager(mock.Object);
 
             var maListe = aTester.RechercheParIntervallePrix(25, 50);

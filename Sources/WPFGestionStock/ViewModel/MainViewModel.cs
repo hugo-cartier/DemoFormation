@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight.Command;
 using GestionStock.Business;
 using GestionStock.Business.Modele;
 using GestionStock.Database;
+using GestionStock.Database.Interface;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -26,15 +27,17 @@ namespace WPFGestionStock.ViewModel
 
         #region Commands
         public RelayCommand ChargerStockCommand { get; set; }
+        public RelayCommand<string> RechercherParRefCommand { get; set; }
        
         #endregion
 
         #region ctor
         public MainViewModel()
         {
-            BusinessManager = new BusinessStockManager(new DataBaseArticleManager());
+            BusinessManager = new BusinessStockManager(new DatabaseArticleManager());
             AddStockManager = new AddStockManagerVM(this);
             ChargerStockCommand = new RelayCommand(ChargerStock);
+            RechercherParRefCommand = new RelayCommand<string>(RechercherParRef);
         }
         #endregion
 
@@ -43,6 +46,12 @@ namespace WPFGestionStock.ViewModel
         {
             Articles.Clear();
             BusinessManager.Load().ForEach(c => Articles.Add(c));
+        }
+
+        public void RechercherParRef(string reference)
+        {
+            Articles.Clear();
+            BusinessManager.RechercheParRefApproximative(reference).ForEach(c => Articles.Add(c));
         }
 
 

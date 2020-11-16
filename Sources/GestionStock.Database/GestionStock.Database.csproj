@@ -78,6 +78,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -86,9 +88,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseArticle.cs">
+      <DependentUpon>GestionStockModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataBaseArticleManager.cs" />
+    <Compile Include="GestionStockModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GestionStockModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GestionStockModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GestionStockModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GestionStockModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GestionStockModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Interface\IDataBaseArticleManager.cs" />
-    <Compile Include="Modele\DataBaseArticle.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +117,16 @@
     <Content Include="DBProd_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>DBProd.mdf</DependentUpon>
+    </Content>
+    <Content Include="GestionStockModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>GestionStockModel.Context.cs</LastGenOutput>
+      <DependentUpon>GestionStockModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="GestionStockModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>GestionStockModel.edmx</DependentUpon>
+      <LastGenOutput>GestionStockModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +144,22 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="GestionStockModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GestionStockModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="GestionStockModel.edmx.diagram">
+      <DependentUpon>GestionStockModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

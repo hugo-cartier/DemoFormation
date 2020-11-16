@@ -53,11 +53,22 @@
             <ei:DataStateBehavior Binding="{Binding AddStockManager.IsAjouterArticle}" Value="True" TrueState="AddArticleVisualState" FalseState="NormalVisualState"/>
         </i:Interaction.Behaviors>
         <StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,15">
+                <TextBlock Text="Recherher par réf : " />
+                <TextBox x:Name="textBox" Width="50" Margin="10,0,0,0" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="TextChanged">
+                            <Custom:EventToCommand Command="{Binding RechercherParRefCommand}" CommandParameter="{Binding Text, ElementName=textBox}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TextBox>
+                <Button Content="Rechercher" Margin="10,0,0,0" Command="{Binding RechercherParRefCommand}" CommandParameter="{Binding Text, ElementName=textBox}" />
+            </StackPanel>
             <Button Content="Charger stock" Command="{Binding ChargerStockCommand}" />
             <ListBox ItemsSource="{Binding Articles}" />
         </StackPanel>
         <Button Content="Ajouter article" Command="{Binding AddStockManager.AfficherMasquerArticleStockCommand}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,10,10" />
-        <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+        <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5" d:IsHidden="True">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>

@@ -20,10 +20,10 @@ namespace GestionStock
             MonStock.AddArticle("9000", "Lait de riz", (decimal)1.2, 780, true);
             MonStock.AddArticle("0096", "Pizza", 3, 500, true);
             MonStock.AfficherArticles();
-            var MaRef = MonStock.RechercheParRef("4545");
+            var MaRef = MonStock.RechercheParRefApproximative("4545");
             //MonStock.SupprimerParRef("9000");
             MonStock.ModifierParRef("0096", "Pizza 3 fromages");
-            var MaModif = MonStock.RechercheParRef("0096");
+            var MaModif = MonStock.RechercheParRefApproximative("0096");
             Console.WriteLine(MaModif);
             MonStock.ModifierParRef("0096", null, 4);
             Console.WriteLine(MaModif);

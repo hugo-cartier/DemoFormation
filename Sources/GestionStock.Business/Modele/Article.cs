@@ -1,4 +1,4 @@
-﻿using GestionStock.Database.Modele;
+﻿using GestionStock.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,11 +12,11 @@ namespace GestionStock.Business.Modele
     {
         public string Reference { get; private set; }
         public string Designation { get; private set; }
-        public float PrixVente { get; private set; }
-        public float QteStock { get; private set; }
+        public decimal PrixVente { get; private set; }
+        public decimal QteStock { get; private set; }
         public bool IsVisible { get; private set; }
 
-        public Article(DataBaseArticle databaseArticle)
+        public Article(DatabaseArticle databaseArticle)
         {
             Reference = databaseArticle.Reference;
             Designation = databaseArticle.Designation;

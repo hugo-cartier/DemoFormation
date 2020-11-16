@@ -1,5 +1,4 @@
 ﻿using GestionStock.Database.Interface;
-using GestionStock.Database.Modele;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,38 +7,21 @@ using System.Threading.Tasks;
 
 namespace GestionStock.Database
 {
-    public class DataBaseArticleManager : IDataBaseArticleManager
+    public class DatabaseArticleManager : IDatabaseArticleManager
     {
-        List<DataBaseArticle> ListeArticles = new List<DataBaseArticle>()
-        {
-            new DataBaseArticle("4700", "Oeufs", 1.5f, 180, false),
-            new DataBaseArticle("4700", "Oeufs test", 5f, 1000, false),
-            new DataBaseArticle("9000", "Lait de riz", 1.2f, 780, false),
-            new DataBaseArticle("0096", "Pizza", 3f, 500, false),
-            new DataBaseArticle("0097", "Pizza 4 fromages", 3.1f, 500, false),
-            new DataBaseArticle("0098", "Pizza bacon", 3.3f, 500, false),
-            new DataBaseArticle("0099", "Pizza 3 fromages", 3.1f, 500, false),
-            new DataBaseArticle("0100", "Pizza chorizo", 3.2f, 500, false),
-            new DataBaseArticle("0666", "Pizza Ananas", 4.0f, 500, false),
-            new DataBaseArticle("0101", "Pizza saumon", 4.2f, 500, false),
-            new DataBaseArticle("0103", "Yaourt vanille", 1.2f, 500, false),
-            new DataBaseArticle("0105", "Yaourt chocolat", 1.3f, 500, false),
-            new DataBaseArticle("0106", "Yaourt pistache", 1.3f, 500, false),
-            new DataBaseArticle("0108", "Yaourt caramel", 1.3f, 500, false),
-        };
-
-        public DataBaseArticleManager()
+        public DatabaseArticleManager()
         {
         }
 
-        public List<DataBaseArticle> Load()
+        public List<DatabaseArticle> Load()
         {
-            // Connection à la BDD
-            SetDataBaseTest();
-            return ListeArticles;
+            using(var context = new DBProdEntities())
+            {
+                return context.DatabaseArticles.ToList();
+            }
         }
 
-        public void AjouterArticle(string reference, string designation, float prixVente, float qteStock, bool sommeil)
+        public void AjouterArticle(string reference, string designation, decimal prixVente, decimal qteStock, bool sommeil)
         {
             if (reference == null)
                 throw new Exception("Reference nulle impossible.");
@@ -49,72 +31,104 @@ namespace GestionStock.Database
                 throw new Exception("Prix de vente inférieur à 0 impossible.");
             if (qteStock < 0)
                 throw new Exception("Quantité stock inférieur à 0 impossible.");
-            ListeArticles.Add(new DataBaseArticle(reference, designation, prixVente, qteStock, sommeil));
+
+            using (var context = new DBProdEntities())
+            {
+                context.DatabaseArticles.Add(new DatabaseArticle()
+                {
+                    Reference = reference,
+                    Designation = designation,
+                    PrixVente = prixVente,
+                    QteStock = qteStock,
+                    Sommeil = sommeil,
+                });
+
+                context.SaveChanges();
+            }
         }
 
         public void AfficherArticles()
         {
-            foreach (var LigneArticle in ListeArticles)
+            using (var context = new DBProdEntities())
             {
-                Console.WriteLine(LigneArticle.ToString());
+                foreach (var LigneArticle in context.DatabaseArticles)
+                {
+                    Console.WriteLine(LigneArticle.ToString());
+                }
             }
         }
 
-        public DataBaseArticle RechercheParRef(string reference)
+        public DatabaseArticle RechercheParRefExacte(string reference)
         {
-            var temp = ListeArticles.Where(r => r.Reference == reference);
-            var result = temp.FirstOrDefault();
-            return result;
+            using (var context = new DBProdEntities())
+            {
+                var temp = context.DatabaseArticles.Where(r => r.Reference == reference);
+                var result = temp.FirstOrDefault();
+                return result;
+            }
+        }
+
+        public List<DatabaseArticle> RechercheParRefApproximative(string reference)
+        {
+            using (var context = new DBProdEntities())
+            {
+                return context.DatabaseArticles.Where(r => r.Reference.Contains(reference)).ToList();
+            }
         }
 
         public void ViderArticle()
         {
-            ListeArticles.Clear();
+            using (var context = new DBProdEntities())
+            {
+                context.DatabaseArticles.RemoveRange(context.DatabaseArticles);
+            }
         }
 
         public void SupprimerParRef(string reference)
         {
-            var temp = ListeArticles.Where(r => r.Reference == reference);
-            var temp2 = temp.ToList();
-            foreach (var item in temp2)
+            using (var context = new DBProdEntities())
             {
-                ListeArticles.Remove(item);
+                var temp = context.DatabaseArticles.Where(r => r.Reference == reference);
+                context.DatabaseArticles.RemoveRange(temp);
             }
-            //MonStock.RemoveAll(r => r.Reference == reference);
         }
 
-        public void ModifierParRef(string reference, string designation = null, float? prixVente = null, float? qteStock = null)
+        public void ModifierParRef(string reference, string designation = null, decimal? prixVente = null, decimal? qteStock = null)
         {
             if (prixVente < 0)
                 throw new Exception("Prix de vente inférieur à 0 impossible.");
             if (qteStock < 0)
                 throw new Exception("Quantité stock inférieur à 0 impossible.");
-            //Recherche de ton/tes objet(s)
-            var temp = ListeArticles.Where(r => r.Reference == reference);
-            //Execution de la recherche et récupération des résultats
-            var temp2 = temp.ToList();
-            //Pour chaque résultat, j'effectue la modification de ceux-ci
-            foreach (var item in temp2)
+
+            using (var context = new DBProdEntities())
             {
-                item.Designation = designation ?? item.Designation;
-                item.PrixVente = prixVente ?? item.PrixVente;
-                item.QteStock = qteStock ?? item.QteStock;
+                var temp = context.DatabaseArticles.Where(r => r.Reference == reference);
+                var result = temp.FirstOrDefault();
+                if(result != null)
+                {
+                    result.Designation = designation ?? result.Designation;
+                    result.PrixVente = prixVente ?? result.PrixVente;
+                    result.QteStock = qteStock ?? result.QteStock;
+                }
+                context.SaveChanges();
             }
         }
 
-        public List<DataBaseArticle> RechercheParIntervallePrix(float min, float max)
+        public List<DatabaseArticle> RechercheParIntervallePrix(decimal min, decimal max)
         {
-            var temp = ListeArticles.Where(p => p.PrixVente >= min && p.PrixVente <= max);
-            var result = temp.ToList();
-            return result;
+            using (var context = new DBProdEntities())
+            {
+                var temp = context.DatabaseArticles.Where(p => p.PrixVente >= min && p.PrixVente <= max);
+                return temp.ToList();
+            }
         }
 
         public void SetDataBaseTest()
         {
-            //ListeArticles.Add(new DataBaseArticle("4700", "Oeufs", 1.5f, 180));
-            //ListeArticles.Add(new DataBaseArticle("4700", "Oeufs test", 5f, 1000));
-            //ListeArticles.Add(new DataBaseArticle("9000", "Lait de riz", 1.2f, 780));
-            //ListeArticles.Add(new DataBaseArticle("0096", "Pizza", 3f, 500));
+            //ListeArticles.Add(new DatabaseArticle("4700", "Oeufs", 1.5f, 180));
+            //ListeArticles.Add(new DatabaseArticle("4700", "Oeufs test", 5f, 1000));
+            //ListeArticles.Add(new DatabaseArticle("9000", "Lait de riz", 1.2f, 780));
+            //ListeArticles.Add(new DatabaseArticle("0096", "Pizza", 3f, 500));
         }
     }
 }

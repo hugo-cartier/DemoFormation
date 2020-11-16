@@ -1,7 +1,6 @@
 ﻿using GestionStock.Business.Modele;
 using GestionStock.Database;
 using GestionStock.Database.Interface;
-using GestionStock.Database.Modele;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +11,9 @@ namespace GestionStock.Business
 {
     public class BusinessStockManager
     {
-        public IDataBaseArticleManager DbManager;
+        public IDatabaseArticleManager DbManager;
 
-        public BusinessStockManager(IDataBaseArticleManager dbManager)
+        public BusinessStockManager(IDatabaseArticleManager dbManager)
         {
             DbManager = dbManager;
         }
@@ -25,9 +24,9 @@ namespace GestionStock.Business
         }
 
         // null, null, -50, -2
-        public void AddArticle(string reference, string designation, float prixVente, float qteStock, bool isVisible)
+        public void AddArticle(string reference, string designation, decimal prixVente, decimal qteStock, bool isVisible)
         {
-            if (RechercheParRef(reference) == null)
+            if (RechercheParRefExacte(reference) == null)
             {
                 if (reference == null)
                     throw new Exception("Reference nulle impossible.");
@@ -47,13 +46,19 @@ namespace GestionStock.Business
             DbManager.AfficherArticles();
         }
 
-        public Article RechercheParRef(string reference)
+        public Article RechercheParRefExacte(string reference)
         {
-            DataBaseArticle dbTempArticle = DbManager.RechercheParRef(reference);
+            DatabaseArticle dbTempArticle = DbManager.RechercheParRefExacte(reference);
             if (dbTempArticle == null)
                 return null;
             else
                 return new Article(dbTempArticle);
+        }
+
+        public List<Article> RechercheParRefApproximative(string reference)
+        {
+            List<DatabaseArticle> dbTempListArticle = DbManager.RechercheParRefApproximative(reference);
+            return dbTempListArticle.Select(c => new Article(c)).ToList();
         }
 
         public void ViderArticle()
@@ -66,12 +71,12 @@ namespace GestionStock.Business
             DbManager.SupprimerParRef(reference);
         }
 
-        public void ModifierParRef(string reference, string designation = null, float? prixVente = null, float? qteStock = null)
+        public void ModifierParRef(string reference, string designation = null, decimal? prixVente = null, decimal? qteStock = null)
         {
             DbManager.ModifierParRef(reference, designation, prixVente, qteStock);
         }
 
-        public List<Article> RechercheParIntervallePrix(float min, float max)
+        public List<Article> RechercheParIntervallePrix(decimal min, decimal max)
         {
             return DbManager
                 .RechercheParIntervallePrix(min, max)
