@@ -20,7 +20,7 @@ namespace GestionStock.Test
         {
             //Arrange
             var mock = new Mock<IDataBaseArticleManager>();
-            mock.Setup(x => x.RechercheParRef("4700")).Returns(() => new DataBaseArticle("4700", "", 1, 1));
+            mock.Setup(x => x.RechercheParRef("4700")).Returns(() => new DataBaseArticle("4700", "", 1, 1, true));
             var aTester = new BusinessStockManager(mock.Object);
 
             //Act
@@ -51,12 +51,12 @@ namespace GestionStock.Test
         public void AjoutTest()
         {
             var mock = new Mock<IDataBaseArticleManager>();
-            mock.Setup(x => x.AjouterArticle("4800", "Test", 123, 1234));
-            mock.Setup(x => x.RechercheParRef("4800")).Returns(() => new DataBaseArticle("4800", "Test", 123, 1234));
+            mock.Setup(x => x.AjouterArticle("4800", "Test", 123, 1234, true));
+            mock.Setup(x => x.RechercheParRef("4800")).Returns(() => new DataBaseArticle("4800", "Test", 123, 1234, true));
             var aTester = new BusinessStockManager(mock.Object);
 
 
-            aTester.AddArticle("4800", "Test", 123, 1234);
+            aTester.AddArticle("4800", "Test", 123, 1234, true);
             var trouve = aTester.RechercheParRef("4800");
 
 

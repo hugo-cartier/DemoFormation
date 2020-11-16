@@ -15,10 +15,10 @@ namespace GestionStock
         static void Main(string[] args)
         {
             BusinessStockManager MonStock = new BusinessStockManager(new DataBaseArticleManager());
-            MonStock.AddArticle("4700", "Oeufs", 1.5f, 180);
-            MonStock.AddArticle("4700", "Oeufs test", 5f, 1000);
-            MonStock.AddArticle("9000", "Lait de riz", 1.2f, 780);
-            MonStock.AddArticle("0096", "Pizza", 3f, 500);
+            MonStock.AddArticle("4700", "Oeufs", 1.5f, 180, true);
+            MonStock.AddArticle("4700", "Oeufs test", 5f, 1000, true);
+            MonStock.AddArticle("9000", "Lait de riz", 1.2f, 780, true);
+            MonStock.AddArticle("0096", "Pizza", 3f, 500, true);
             MonStock.AfficherArticles();
             var MaRef = MonStock.RechercheParRef("4545");
             //MonStock.SupprimerParRef("9000");

@@ -11,7 +11,7 @@ namespace GestionStock.Database.Interface
     {
         List<DataBaseArticle> Load();
 
-        void AjouterArticle(string reference, string designation, float prixVente, float qteStock);
+        void AjouterArticle(string reference, string designation, float prixVente, float qteStock, bool sommeil);
 
         void AfficherArticles();
 

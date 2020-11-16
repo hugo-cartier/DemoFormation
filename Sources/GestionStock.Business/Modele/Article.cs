@@ -14,6 +14,7 @@ namespace GestionStock.Business.Modele
         public string Designation { get; private set; }
         public float PrixVente { get; private set; }
         public float QteStock { get; private set; }
+        public bool IsVisible { get; private set; }
 
         public Article(DataBaseArticle databaseArticle)
         {
@@ -21,11 +22,12 @@ namespace GestionStock.Business.Modele
             Designation = databaseArticle.Designation;
             PrixVente = databaseArticle.PrixVente;
             QteStock = databaseArticle.QteStock;
+            IsVisible = !databaseArticle.Sommeil;
         }
 
         public override string ToString()
         {
-            return "Référence : " + Reference + " - Désignation : " + Designation + " - Prix vente : " + PrixVente + " - Quantité stock : " + QteStock;
+            return "Référence : " + Reference + " - Désignation : " + Designation + " - Prix vente : " + PrixVente + " - Quantité stock : " + QteStock + " - Visible ? " + IsVisible;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace GestionStock.Business
         }
 
         // null, null, -50, -2
-        public void AddArticle(string reference, string designation, float prixVente, float qteStock)
+        public void AddArticle(string reference, string designation, float prixVente, float qteStock, bool isVisible)
         {
             if (RechercheParRef(reference) == null)
             {
@@ -38,7 +38,7 @@ namespace GestionStock.Business
                 if (qteStock < 0)
                     throw new Exception("Quantité stock inférieur à 0 impossible.");
 
-                DbManager.AjouterArticle(reference, designation, prixVente, qteStock);
+                DbManager.AjouterArticle(reference, designation, prixVente, qteStock, !isVisible);
             }
         }
 

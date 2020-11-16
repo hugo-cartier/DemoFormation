@@ -12,13 +12,15 @@ namespace GestionStock.Database.Modele
         public string Designation { get; set; }
         public float PrixVente { get; set; }
         public float QteStock { get; set; }
+        public bool Sommeil { get; set; }
 
-        public DataBaseArticle(string reference, string designation, float prixVente, float qteStock)
+        public DataBaseArticle(string reference, string designation, float prixVente, float qteStock, bool sommeil)
         {
             Reference = reference;
             Designation = designation;
             PrixVente = prixVente;
             QteStock = qteStock;
+            Sommeil = sommeil;
         }
     }
 }

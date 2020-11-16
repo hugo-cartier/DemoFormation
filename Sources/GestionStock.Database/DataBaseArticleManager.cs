@@ -12,16 +12,16 @@ namespace GestionStock.Database
     {
         List<DataBaseArticle> ListeArticles = new List<DataBaseArticle>()
         {
-            new DataBaseArticle("4700", "Oeufs", 1.5f, 180),
-            new DataBaseArticle("4700", "Oeufs test", 5f, 1000),
-            new DataBaseArticle("9000", "Lait de riz", 1.2f, 780),
-            new DataBaseArticle("0096", "Pizza", 3f, 500),
-            new DataBaseArticle("0097", "Pizza 4 fromages", 3.1f, 500),
-            new DataBaseArticle("0098", "Pizza bacon", 3.3f, 500),
-            new DataBaseArticle("0099", "Pizza 3 fromages", 3.1f, 500),
-            new DataBaseArticle("0100", "Pizza chorizo", 3.2f, 500),
-            new DataBaseArticle("0666", "Pizza Ananas", 4.0f, 500),
-            new DataBaseArticle("0101", "Pizza saumon", 4.2f, 500),
+            new DataBaseArticle("4700", "Oeufs", 1.5f, 180, false),
+            new DataBaseArticle("4700", "Oeufs test", 5f, 1000, false),
+            new DataBaseArticle("9000", "Lait de riz", 1.2f, 780, false),
+            new DataBaseArticle("0096", "Pizza", 3f, 500, false),
+            new DataBaseArticle("0097", "Pizza 4 fromages", 3.1f, 500, false),
+            new DataBaseArticle("0098", "Pizza bacon", 3.3f, 500, false),
+            new DataBaseArticle("0099", "Pizza 3 fromages", 3.1f, 500, false),
+            new DataBaseArticle("0100", "Pizza chorizo", 3.2f, 500, false),
+            new DataBaseArticle("0666", "Pizza Ananas", 4.0f, 500, false),
+            new DataBaseArticle("0101", "Pizza saumon", 4.2f, 500, false),
         };
 
         public DataBaseArticleManager()
@@ -35,7 +35,7 @@ namespace GestionStock.Database
             return ListeArticles;
         }
 
-        public void AjouterArticle(string reference, string designation, float prixVente, float qteStock)
+        public void AjouterArticle(string reference, string designation, float prixVente, float qteStock, bool sommeil)
         {
             if (reference == null)
                 throw new Exception("Reference nulle impossible.");
@@ -45,7 +45,7 @@ namespace GestionStock.Database
                 throw new Exception("Prix de vente inférieur à 0 impossible.");
             if (qteStock < 0)
                 throw new Exception("Quantité stock inférieur à 0 impossible.");
-            ListeArticles.Add(new DataBaseArticle(reference, designation, prixVente, qteStock));
+            ListeArticles.Add(new DataBaseArticle(reference, designation, prixVente, qteStock, sommeil));
         }
 
         public void AfficherArticles()
