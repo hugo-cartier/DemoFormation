@@ -72,7 +72,7 @@ namespace GestionStock.Test
         {
             var mock = new Mock<IDataBaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
-            aTester.AddArticle(null, "Test", 123, 0);
+            aTester.AddArticle(null, "Test", 123, 0, true);
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace GestionStock.Test
         {
             var mock = new Mock<IDataBaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
-            aTester.AddArticle("4700", null, 123, 0);
+            aTester.AddArticle("4700", null, 123, 0, true);
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace GestionStock.Test
         {
             var mock = new Mock<IDataBaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
-            aTester.AddArticle("4700", "TEST", -2, 25);
+            aTester.AddArticle("4700", "TEST", -2, 25, true);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace GestionStock.Test
         {
             var mock = new Mock<IDataBaseArticleManager>();
             var aTester = new BusinessStockManager(mock.Object);
-            aTester.AddArticle("4700", "TEST", 10, -5);
+            aTester.AddArticle("4700", "TEST", 10, -5, true);
         }
 
         [TestMethod]

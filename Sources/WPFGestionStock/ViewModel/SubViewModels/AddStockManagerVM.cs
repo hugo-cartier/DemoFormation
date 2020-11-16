@@ -50,7 +50,7 @@ namespace WPFGestionStock.ViewModel.SubViewModels
 
         public void ValiderArticleStock()
         {
-            _Parent.BusinessManager.AddArticle(ArticleAjoutVM.Reference, ArticleAjoutVM.Designation, ArticleAjoutVM.PrixVente, ArticleAjoutVM.QteStock);
+            _Parent.BusinessManager.AddArticle(ArticleAjoutVM.Reference, ArticleAjoutVM.Designation, ArticleAjoutVM.PrixVente, ArticleAjoutVM.QteStock, ArticleAjoutVM.EstVisible);
             _Parent.ChargerStock();
             IsAjouterArticle = !IsAjouterArticle;
         }

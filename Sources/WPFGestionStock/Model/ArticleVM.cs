@@ -13,6 +13,7 @@ namespace WPFGestionStock.Model
         public string Designation { get; set; }
         public float PrixVente { get; set; }
         public float QteStock { get; set; }
+        public bool EstVisible { get; set; }
 
         //public ArticleVM(Article databaseArticle)
         //{
