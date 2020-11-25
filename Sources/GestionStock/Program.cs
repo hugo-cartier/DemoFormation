@@ -4,6 +4,7 @@ using GestionStock.Business.Modele;
 using GestionStock.Database;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,13 +13,20 @@ namespace GestionStock
 {
     class Program
     {
+        [STAThread]
         static void Main(string[] args)
         {
-            BusinessStockManager MonStock = new BusinessStockManager(new DatabaseArticleManager());
-            MonStock.AddArticle("4700", "Oeufs", (decimal)1.5, 180, true);
-            MonStock.AddArticle("4700", "Oeufs test", (decimal)5, 1000, true);
-            MonStock.AddArticle("9000", "Lait de riz", (decimal)1.2, 780, true);
-            MonStock.AddArticle("0096", "Pizza", 3, 500, true);
+
+            using (var dialog = new System.Windows.Forms.FolderBrowserDialog())
+            {
+                System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            }
+
+            BusinessStockManager MonStock = new BusinessStockManager(new DataBaseArticleManager());
+            MonStock.AddArticle("4700", "Oeufs", 1.5f, 180, true);
+            MonStock.AddArticle("4700", "Oeufs test", 5f, 1000, true);
+            MonStock.AddArticle("9000", "Lait de riz", 1.2f, 780, true);
+            MonStock.AddArticle("0096", "Pizza", 3f, 500, true);
             MonStock.AfficherArticles();
             var MaRef = MonStock.RechercheParRefApproximative("4545");
             //MonStock.SupprimerParRef("9000");
