@@ -1,6 +1,7 @@
 ﻿using GestionStock.Business.Modele;
 using GestionStock.Database;
 using GestionStock.Database.Interface;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,12 +12,8 @@ namespace GestionStock.Business
 {
     public class BusinessStockManager
     {
-        public IDatabaseArticleManager DbManager;
-
-        public BusinessStockManager(IDatabaseArticleManager dbManager)
-        {
-            DbManager = dbManager;
-        }
+        [Inject]
+        public IDatabaseArticleManager DbManager { get; set; }
 
         public List<Article> Load()
         {

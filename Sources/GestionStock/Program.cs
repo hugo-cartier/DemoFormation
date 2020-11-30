@@ -2,6 +2,8 @@
 using GestionStock.Business;
 using GestionStock.Business.Modele;
 using GestionStock.Database;
+using GestionStock.Database.Interface;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,11 +24,16 @@ namespace GestionStock
                 System.Windows.Forms.DialogResult result = dialog.ShowDialog();
             }
 
-            BusinessStockManager MonStock = new BusinessStockManager(new DataBaseArticleManager());
-            MonStock.AddArticle("4700", "Oeufs", 1.5f, 180, true);
-            MonStock.AddArticle("4700", "Oeufs test", 5f, 1000, true);
-            MonStock.AddArticle("9000", "Lait de riz", 1.2f, 780, true);
-            MonStock.AddArticle("0096", "Pizza", 3f, 500, true);
+            IKernel _Kernal = new StandardKernel();
+            _Kernal.Bind<BusinessStockManager>().To<BusinessStockManager>();
+            _Kernal.Bind<IDatabaseArticleManager>().To<DatabaseArticleManager>();
+
+            var MonStock = _Kernal.Get<BusinessStockManager>();
+            //BusinessStockManager MonStock = new BusinessStockManager(new DatabaseArticleManager());
+            MonStock.AddArticle("4700", "Oeufs", 1.5m, 180, true);
+            MonStock.AddArticle("4700", "Oeufs test", 5m, 1000, true);
+            MonStock.AddArticle("9000", "Lait de riz", 1.2m, 780, true);
+            MonStock.AddArticle("0096", "Pizza", 3m, 500, true);
             MonStock.AfficherArticles();
             var MaRef = MonStock.RechercheParRefApproximative("4545");
             //MonStock.SupprimerParRef("9000");

@@ -4,6 +4,7 @@ using GestionStock.Business;
 using GestionStock.Business.Modele;
 using GestionStock.Database;
 using GestionStock.Database.Interface;
+using Ninject;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace WPFGestionStock.ViewModel
         #region ctor
         public MainViewModel()
         {
-            BusinessManager = new BusinessStockManager(new DatabaseArticleManager());
+            BusinessManager = App.Kernal.Get<BusinessStockManager>();
             AddStockManager = new AddStockManagerVM(this);
             ChargerStockCommand = new RelayCommand(ChargerStock);
             RechercherParRefCommand = new RelayCommand<string>(RechercherParRef);

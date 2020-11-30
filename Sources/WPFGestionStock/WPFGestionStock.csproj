@@ -81,6 +81,9 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MicrosoftExpressionInteractions.3.0.40218.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -162,6 +165,10 @@
     <ProjectReference Include="..\GestionStock.Business\GestionStock.Business.csproj">
       <Project>{a21daae8-807c-4645-8c16-7ab28f67e728}</Project>
       <Name>GestionStock.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GestionStock.Database\GestionStock.Database.csproj">
+      <Project>{3dc617e5-473a-462a-914d-3b14b2dfca89}</Project>
+      <Name>GestionStock.Database</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
